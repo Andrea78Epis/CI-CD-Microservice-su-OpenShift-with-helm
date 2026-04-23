@@ -16,7 +16,41 @@ The pipeline is composed of:
 
 Flow:
 
-GitHub → GitHub Actions → Docker Hub → Helm → OpenShift
+```mermaid
+flowchart LR
+
+Dev[Developer Push] --> GH[GitHub Repo]
+
+GH --> GA[GitHub Actions]
+
+GA --> B[Build Docker Image]
+B --> DH[Docker Hub]
+
+DH --> OC[OpenShift Cluster]
+
+OC --> H[Helm Render]
+
+H --> DPL[Deployment]
+DPL --> SVC[Service]
+DPL --> RT[Route]
+
+RT --> USER[End User]
+
+subgraph CI/CD Pipeline
+GH
+GA
+B
+DH
+end
+
+subgraph Cluster OpenShift
+OC
+H
+DPL
+SVC
+RT
+end
+```
 
 ---
 
