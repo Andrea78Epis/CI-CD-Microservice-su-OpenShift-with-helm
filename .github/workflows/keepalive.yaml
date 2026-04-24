@@ -1,0 +1,19 @@
+name: Keep App Alive
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # ogni 10 minuti
+  workflow_dispatch:         # eseguibile anche manualmente
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Call health endpoint
+        run: |
+          STATUS=$(curl -k -s -o /dev/null -w "%{http_code}" https://devops-route-andreasandro-dev.apps.rm1.0a51.p1.openshiftapps.com/health)
+          if [ "$STATUS" -ne 200 ]; then
+            echo "App not healthy! Status: $STATUS"
+            exit 1
+          fi
