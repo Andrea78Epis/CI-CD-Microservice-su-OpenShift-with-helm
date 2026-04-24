@@ -5,12 +5,6 @@ metadata:
 spec:
   replicas: {{ .Values.replicaCount }}
 
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
-      maxSurge: 0
-
   selector:
     matchLabels:
       app: devops-app
@@ -27,27 +21,6 @@ spec:
           ports:
             - containerPort: 8080
 
-          # ENV DB
-          env:
-            - name: DB_HOST
-              value: postgres
-            - name: DB_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: db-secret
-                  key: POSTGRES_DB
-            - name: DB_USER
-              valueFrom:
-                secretKeyRef:
-                  name: db-secret
-                  key: POSTGRES_USER
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: db-secret
-                  key: POSTGRES_PASSWORD
-
-          # RISORSE
           resources:
 {{- toYaml .Values.resources | nindent 12 }}
 
