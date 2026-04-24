@@ -2,7 +2,7 @@ FROM python:3.10
 
 WORKDIR /app
 
-COPY app.py .
+COPY app/app.py .
 
 RUN pip install flask
 
