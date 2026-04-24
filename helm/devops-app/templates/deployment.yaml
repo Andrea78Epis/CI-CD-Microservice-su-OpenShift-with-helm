@@ -25,26 +25,3 @@ spec:
 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-
-          startupProbe:
-            httpGet:
-              path: /health
-              port: 8080
-            failureThreshold: 30
-            periodSeconds: 5
-
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 8080
-            initialDelaySeconds: 10
-            periodSeconds: 120
-            failureThreshold: 3
-
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 8080
-            initialDelaySeconds: 5
-            periodSeconds: 5
-            failureThreshold: 3
