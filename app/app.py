@@ -1,11 +1,14 @@
-FROM python:3.10
+from flask import Flask
 
-WORKDIR /app
+app = Flask(__name__)
 
-COPY app.py .
+@app.route("/")
+def home():
+    return "Hello from OpenShift DevOps project"
 
-RUN pip install flask
+@app.route("/health")
+def health():
+    return {"status": "ok"}
 
-EXPOSE 8080
-
-CMD ["python", "app.py"]
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8080)
