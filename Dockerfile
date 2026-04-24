@@ -1,11 +1,9 @@
-FROM python:3.10
+FROM python:3.10-slim
 
 WORKDIR /app
 
 COPY app/ /app/
 
-RUN pip install flask
-
-EXPOSE 8080
+RUN pip install -r requirements.txt
 
 CMD ["python", "app.py"]
