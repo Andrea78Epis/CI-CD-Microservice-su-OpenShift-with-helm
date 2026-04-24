@@ -1,5 +1,14 @@
 # DevOps CI/CD Microservice on OpenShift (Flask + SQLite + Helm + Swagger)
 
+![CI](https://github.com/Andrea78Epis/myapp/actions/workflows/deploy.yml/badge.svg)
+
+![Docker](https://img.shields.io/badge/docker-image-blue?logo=docker)
+
+![OpenShift](https://img.shields.io/badge/OpenShift-ready-red?logo=redhat)
+
+![Flask](https://img.shields.io/badge/flask-api-lightgrey?logo=flask)
+
+
 This project is a complete DevOps pipeline that deploys a Flask microservice on Red Hat OpenShift using GitHub Actions, Docker, and Helm.
 
 It includes a REST API with automatic Swagger/OpenAPI documentation using Flask-RESTX and ephemeral SQLite storage.
