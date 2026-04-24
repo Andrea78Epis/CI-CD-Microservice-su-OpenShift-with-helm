@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify
 import sqlite3
-import os
 
 app = Flask(__name__)
 DB_PATH = "data.db"
@@ -16,6 +15,10 @@ def init_db():
     """)
     conn.commit()
     conn.close()
+
+@app.before_first_request
+def setup():
+    init_db()
 
 @app.route("/")
 def home():
@@ -45,5 +48,4 @@ def add_task():
     return {"status": "created"}
 
 if __name__ == "__main__":
-    init_db()
     app.run(host="0.0.0.0", port=8080)
