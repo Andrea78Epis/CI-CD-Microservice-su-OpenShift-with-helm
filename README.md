@@ -205,6 +205,38 @@ Response:
 
 ---
 
+---
+
+## GitOps Ready (ArgoCD)
+
+This project is designed following GitOps principles and is ready to be deployed using ArgoCD.
+
+Instead of pushing deployments from CI/CD, the cluster pulls the desired state from Git.
+
+### GitOps Flow
+
+GitHub → ArgoCD → OpenShift
+
+### ArgoCD Configuration
+
+An example ArgoCD Application is provided:
+
+```
+argocd/application.yaml
+```
+
+This file defines:
+
+- Source repository (GitHub)
+- Helm chart location
+- Target namespace in OpenShift
+- Automated sync policy (self-healing + pruning)
+
+### Note
+
+ArgoCD is not installed in OpenShift Sandbox due to platform limitations,  
+but this repository is fully compatible with a GitOps deployment model.
+
 ## Helm Configuration
 
 The application is fully configurable via Helm values.
