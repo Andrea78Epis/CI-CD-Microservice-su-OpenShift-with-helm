@@ -9,14 +9,13 @@ It includes a simple REST API with persistent storage using SQLite (ephemeral fi
 ## Architecture Flow
 
 ```mermaid
-flowchart TD
-    A[GitHub Push] --> B[GitHub Actions CI/CD]
-    B --> C[Docker Build Image]
-    C --> D[Docker Hub Push]
-    D --> E[OpenShift Deploy via Helm]
-    E --> F[Flask App Pod]
-    F --> G[SQLite DB file]
-    E --> H[OpenShift Route HTTPS]
+flowchart LR
+    A[Feature Branch] --> B[Commit Code]
+    B --> C[Pull Request]
+    C --> D[GitHub Actions CI]
+    D --> E[Code Review]
+    E --> F[Merge to main]
+    F --> G[OpenShift Deploy]
 ```
 
 ---
