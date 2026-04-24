@@ -4,6 +4,10 @@ image:
   repository: andreaepis78/myapp
   tag: latest
 
+swagger:
+  enabled: true
+  path: /swagger
+  
 service:
   port: 80
   targetPort: 8080
