@@ -68,7 +68,6 @@ I --> J[Swagger UI / API]
 ## Project Structure
 
 ```
-```
 CI-CD-Microservice-su-OpenShift-with-helm/
 │
 ├── .github/
