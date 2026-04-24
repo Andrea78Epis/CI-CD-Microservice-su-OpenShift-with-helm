@@ -9,14 +9,19 @@ spec:
   selector:
     matchLabels:
       app: postgres
+
   template:
     metadata:
       labels:
         app: postgres
+
     spec:
       containers:
         - name: postgres
           image: postgres:13
+
+          ports:
+            - containerPort: 5432
 
           env:
             - name: POSTGRES_USER
@@ -36,4 +41,14 @@ spec:
                 secretKeyRef:
                   name: db-secret
                   key: POSTGRES_DB
+
+          # 💥 FIX OPENSHIFT (NO CHMOD ERROR)
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+
+      volumes:
+        - name: postgres-data
+          emptyDir: {}
+
 {{- end }}
