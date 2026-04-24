@@ -1,6 +1,6 @@
 # DevOps CI/CD Microservice on OpenShift (Flask + SQLite + Helm + Swagger)
 
-![CI](https://github.com/Andrea78Epis/myapp/actions/workflows/deploy.yml/badge.svg)
+![CI](https://img.shields.io/github/actions/workflow/status/Andrea78Epis/myapp/deploy.yml?branch=main)
 
 ![Docker](https://img.shields.io/badge/docker-image-blue?logo=docker)
 
