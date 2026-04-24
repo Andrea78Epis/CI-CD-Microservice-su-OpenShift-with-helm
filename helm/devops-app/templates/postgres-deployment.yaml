@@ -14,13 +14,18 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: bitnami/postgresql:15
+          image: postgres:13
+
           ports:
             - containerPort: 5432
+
           env:
-            - name: POSTGRESQL_USERNAME
+            - name: POSTGRES_USER
               value: app
-            - name: POSTGRESQL_PASSWORD
+            - name: POSTGRES_PASSWORD
               value: app
-            - name: POSTGRESQL_DATABASE
+            - name: POSTGRES_DB
               value: tasks
+
+          securityContext:
+            runAsUser: 0
