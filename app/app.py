@@ -31,7 +31,9 @@ def get_tasks():
     cur.execute("SELECT * FROM tasks")
     rows = cur.fetchall()
     conn.close()
-    return jsonify(rows)
+    return jsonify([
+    {"id": r[0], "name": r[1]} for r in rows
+    ])
 
 @app.route("/tasks", methods=["POST"])
 def add_task():
