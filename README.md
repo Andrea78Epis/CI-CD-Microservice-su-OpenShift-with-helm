@@ -12,6 +12,27 @@ GitHub Push → GitHub Actions CI/CD → Docker Build → Docker Hub → Helm De
 
 ---
 
+## Architecture Diagram
+
+```mermaid
+flowchart LR
+
+A[GitHub Repo] --> B[GitHub Actions CI/CD]
+B --> C[Build Docker Image]
+C --> D[Push Docker Hub]
+D --> E[Helm Deploy]
+
+E --> F[OpenShift Cluster]
+F --> G[Flask App Pod]
+
+G --> H[SQLite /tmp DB]
+
+F --> I[OpenShift Route HTTPS]
+I --> J[Swagger UI / API]
+
+```
+---
+
 ## Technologies Used
 
 - Python 3 / Flask
