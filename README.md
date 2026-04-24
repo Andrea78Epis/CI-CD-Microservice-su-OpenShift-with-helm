@@ -151,6 +151,11 @@ This allows deployment customization for different environments (dev, test, prod
 - Pods may restart periodically
 - Ideal for learning / demo purposes
 
+### Authentication
+
+OpenShift authentication is handled via short-lived tokens due to Sandbox security policies.  
+Token rotation is managed via GitHub Secrets.
+
 ---
 
 ## Limitations
