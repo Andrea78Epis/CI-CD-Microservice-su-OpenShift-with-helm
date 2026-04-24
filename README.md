@@ -58,20 +58,27 @@ I --> J[Swagger UI / API]
 ## Project Structure
 
 ```
-CI-CD-Microservice/
+CI-CD-Microservice-su-OpenShift-with-helm/
+│
+├── .github/
+│   └── workflows/
+│       └── deploy.yml
 │
 ├── app/
-│   └── app.py
+│   ├── app.py
+│   └── requirements.txt
 │
 ├── helm/
 │   └── devops-app/
 │       ├── templates/
-│       ├── values.yaml
-│       └── Chart.yaml
+│       │   ├── deployment.yaml
+│       │   ├── service.yaml
+│       │   └── route.yaml
+│       ├── Chart.yaml
+│       └── values.yaml
 │
 ├── Dockerfile
-├── requirements.txt
-└── .github/workflows/deploy.yml
+└── README.md
 ```
 
 ---
