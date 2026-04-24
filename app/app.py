@@ -67,5 +67,30 @@ def ui():
 # 🚀 INIT DB QUI (FIX OPENSHIFT + FLASK 3.x)
 init_db()
 
+@app.route(SWAGGER_PATH)
+def swagger():
+    if not SWAGGER_ENABLED:
+        return "Swagger disabled", 404
+
+    return """
+    <html>
+        <head>
+            <title>Swagger UI</title>
+        </head>
+        <body>
+            <h1>Swagger UI</h1>
+            <p>API Documentation placeholder</p>
+
+            <h3>Endpoints</h3>
+            <ul>
+                <li>GET /health</li>
+                <li>GET /tasks</li>
+                <li>POST /tasks</li>
+                <li>GET /ui</li>
+            </ul>
+        </body>
+    </html>
+    """
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
