@@ -13,7 +13,8 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Build Docker image
-        run: docker build -t myapp:latest .
+        run: |
+          docker build -t andreaepis78/myapp:${{ github.sha }} .
 
       - name: Login Docker Hub
         run: |
@@ -21,8 +22,7 @@ jobs:
       
       - name: Push image
         run: |
-          docker tag myapp:latest andreaepis78/myapp:latest
-          docker push andreaepis78/myapp:latest
+          docker push andreaepis78/myapp:${{ github.sha }}
 
       - name: Install oc CLI
         run: |
@@ -43,5 +43,5 @@ jobs:
         run: |
           helm template devops-app ./helm/devops-app \
             --set image.repository=andreaepis78/myapp \
-            --set image.tag=latest \
+            --set image.tag=${{ github.sha }} \
           | oc apply -n andreasandro-dev -f -
