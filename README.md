@@ -6,20 +6,17 @@ It includes a simple REST API with persistent storage using SQLite (ephemeral fi
 
 ---
 
-## Architecture
+## Architecture Flow
 
-```
-GitHub Actions
-      ↓
-Docker Image
-      ↓
-OpenShift Cluster
-      ↓
-Flask Microservice
-      ↓
-SQLite (embedded file DB)
-      ↓
-OpenShift Route (HTTPS)
+```mermaid
+flowchart TD
+    A[GitHub Push] --> B[GitHub Actions CI/CD]
+    B --> C[Docker Build Image]
+    C --> D[Docker Hub Push]
+    D --> E[OpenShift Deploy via Helm]
+    E --> F[Flask App Pod]
+    F --> G[SQLite DB file]
+    E --> H[OpenShift Route HTTPS]
 ```
 
 ---
