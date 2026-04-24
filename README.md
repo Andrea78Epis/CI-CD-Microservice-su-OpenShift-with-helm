@@ -79,30 +79,37 @@ Response:
 
 ---
 
-### Create task
-```
-POST /tasks
+## Create task
+
+```bash
+curl -k -X POST "https://devops-route.../tasks" \
+-H "Content-Type: application/json" \
+-d "{\"name\":\"first kubernetes task\"}"
 ```
 
-Body:
+### Response
 ```json
 {
-  "name": "my task"
+  "id": 1,
+  "name": "first kubernetes task"
 }
 ```
 
 ---
 
-### Get tasks
-```
-GET /tasks
+## Get tasks
+
+```bash
+curl -k "https://devops-route.../tasks"
 ```
 
-Response:
+### Response
 ```json
 [
-  [1, "task 1"],
-  [2, "task 2"]
+  {
+    "id": 1,
+    "name": "first kubernetes task"
+  }
 ]
 ```
 
