@@ -106,20 +106,49 @@ Response:
 
 ### Swagger UI (API Documentation)
 
+All API operations are available through Swagger UI:
+
 ```
 https://<openshift-route>/
 ```
 
-Automatically generated OpenAPI UI.
+This is the main interface of the application.
 
 ---
 
-### Create task
+### Create task (via Swagger UI)
+
+Open the Swagger interface:
+
+```
+https://<openshift-route>/
+```
+
+Then:
+
+1. Go to `POST /tasks`
+2. Click **Try it out**
+3. Insert JSON body:
+
+```json
+{
+  "name": "first kubernetes task"
+}
+```
+
+4. Click **Execute**
+5. The response is returned directly in the UI
+
+---
+
+### Alternative: Curl usage (optional)
+
+If needed, you can still call the API via CLI:
 
 ```bash
 curl -k -X POST "https://<route>/tasks" \
 -H "Content-Type: application/json" \
--d "{\"name\":\"first kubernetes task\"}"
+-d '{"name":"test task"}'
 ```
 
 Response:
