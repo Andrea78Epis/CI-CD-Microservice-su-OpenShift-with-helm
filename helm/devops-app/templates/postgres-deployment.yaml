@@ -1,3 +1,5 @@
+{{- if .Values.postgres.enabled }}
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,16 +18,22 @@ spec:
         - name: postgres
           image: postgres:13
 
-          ports:
-            - containerPort: 5432
-
           env:
             - name: POSTGRES_USER
-              value: app
-            - name: POSTGRES_PASSWORD
-              value: app
-            - name: POSTGRES_DB
-              value: tasks
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: POSTGRES_USER
 
-          securityContext:
-            runAsUser: 0
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: POSTGRES_PASSWORD
+
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: POSTGRES_DB
+{{- end }}
