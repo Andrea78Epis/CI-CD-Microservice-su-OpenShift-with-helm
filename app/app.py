@@ -1,5 +1,8 @@
 from flask import Flask, request, jsonify
-import sqlite3
+import sqlite3, os
+
+SWAGGER_ENABLED = os.getenv("SWAGGER_ENABLED", "false") == "true"
+SWAGGER_PATH = os.getenv("SWAGGER_PATH", "/swagger")
 
 app = Flask(__name__)
 DB_PATH = "/tmp/data.db"
