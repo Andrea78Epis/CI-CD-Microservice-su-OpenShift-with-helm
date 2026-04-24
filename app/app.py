@@ -42,6 +42,22 @@ def add_task():
     conn.commit()
     conn.close()
     return {"status": "created"}
+    
+@app.route("/ui")
+def ui():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM tasks")
+    rows = cur.fetchall()
+    conn.close()
+
+    html = "<h1>Task Dashboard</h1><ul>"
+
+    for r in rows:
+        html += f"<li>{r[0]} - {r[1]}</li>"
+
+    html += "</ul>"
+    return html
 
 # 🚀 INIT DB QUI (FIX OPENSHIFT + FLASK 3.x)
 init_db()
