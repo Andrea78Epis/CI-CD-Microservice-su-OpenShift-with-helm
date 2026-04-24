@@ -207,27 +207,11 @@ Response:
 
 ## Helm Configuration
 
-Example `values.yaml`:
+The application is fully configurable via Helm values.
 
-```yaml
-replicaCount: 2
+This allows deployment customization for different environments (dev, test, prod).
 
-image:
-  repository: <your-dockerhub>/myapp
-  tag: latest
-
-swagger:
-  enabled: true
-  path: /swagger
-
-resources:
-  requests:
-    cpu: 100m
-    memory: 128Mi
-  limits:
-    cpu: 250m
-    memory: 256Mi
-```
+Swagger UI is embedded and available at root path `/`
 
 ---
 
