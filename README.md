@@ -1,161 +1,157 @@
-# DevOps App on OpenShift (GitHub Actions + Helm)
+# DevOps CI/CD Microservice on OpenShift (Flask + SQLite + Helm)
 
-This project demonstrates a simple CI/CD pipeline deploying a Python Flask application on OpenShift using Docker, GitHub Actions, and Helm.
+This project is a complete DevOps pipeline that deploys a Flask microservice on Red Hat OpenShift using GitHub Actions, Docker, and Helm.
+
+It includes a simple REST API with persistent storage using SQLite (ephemeral file-based storage).
 
 ---
 
 ## Architecture
 
-The pipeline is composed of:
+```
+GitHub Actions
+      ↓
+Docker Image
+      ↓
+OpenShift Cluster
+      ↓
+Flask Microservice
+      ↓
+SQLite (embedded file DB)
+      ↓
+OpenShift Route (HTTPS)
+```
 
-- GitHub repository (source code + Helm chart)
+---
+
+## Technologies Used
+
+- Python 3 / Flask
+- SQLite (embedded DB)
+- Docker
+- Kubernetes / OpenShift
+- Helm
 - GitHub Actions (CI/CD)
-- Docker Hub (container registry)
-- OpenShift cluster (deployment target)
-- Helm (templating Kubernetes manifests)
-
-Flow:
-
-```mermaid
-flowchart LR
-
-Dev[Developer Push] --> GH[GitHub Repo]
-
-GH --> GA[GitHub Actions]
-
-GA --> B[Build Docker Image]
-B --> DH[Docker Hub]
-
-DH --> OC[OpenShift Cluster]
-
-OC --> H[Helm Render]
-
-H --> DPL[Deployment]
-DPL --> SVC[Service]
-DPL --> RT[Route]
-
-RT --> USER[End User]
-
-subgraph CI/CD Pipeline
-GH
-GA
-B
-DH
-end
-
-subgraph Cluster OpenShift
-OC
-H
-DPL
-SVC
-RT
-end
-```
-
----
-
-## Application
-
-Simple Flask application:
-
-- `/` → returns hello message
-- `/health` → health check endpoint
-
----
-
-## Docker
-
-Build image:
-
-```bash
-docker build -t myapp:latest .
-```
-
-Run locally:
-
-```bash
-docker run -p 8080:8080 myapp:latest
-```
+- OpenShift Routes (HTTPS ingress)
 
 ---
 
 ## Project Structure
 
-```text
-.
-├── app.py
-├── Dockerfile
+```
+CI-CD-Microservice/
+│
+├── app/
+│   └── app.py
+│
 ├── helm/
 │   └── devops-app/
-│       ├── Chart.yaml
+│       ├── templates/
 │       ├── values.yaml
-│       └── templates/
-│           ├── deployment.yaml
-│           ├── service.yaml
-│           └── route.yaml
-├── .github/workflows/deploy.yml
+│       └── Chart.yaml
+│
+├── Dockerfile
+├── requirements.txt
+└── .github/workflows/deploy.yml
 ```
 
 ---
 
-## CI/CD Pipeline
+## ⚙️ Features
 
-Triggered on push to `main`.
-
-Pipeline steps:
-
-1. Build Docker image
-2. Push image to Docker Hub
-3. Install OpenShift CLI (`oc`)
-4. Install Helm
-5. Deploy application to OpenShift using Helm template
+- REST API built with Flask
+- SQLite database (no external DB required)
+- CRUD endpoint for tasks
+- Health check endpoint
+- Containerized with Docker
+- Deployed on OpenShift via Helm
+- CI/CD pipeline using GitHub Actions
 
 ---
 
-## Deployment (Helm)
+## 📡 API Endpoints
 
-Render and deploy:
+### Health check
+```
+GET /health
+```
 
-```bash
-helm template devops-app ./helm/devops-app \
-  --set image.repository=andreaepis78/myapp \
-  --set image.tag=<commit_sha> \
-| oc apply -n andreasandro-dev -f -
+Response:
+```json
+{"status": "ok"}
 ```
 
 ---
 
-## Requirements
+### Create task
+```
+POST /tasks
+```
 
-GitHub Secrets required:
-
-- `DOCKER_USER`
-- `DOCKER_PASS`
-- `OCP_SERVER` (OpenShift API URL)
-- `OCP_TOKEN`
-
----
-
-## OpenShift Resources
-
-The Helm chart deploys:
-
-- Deployment (with probes and resources)
-- Service (ClusterIP)
-- Route (external access)
+Body:
+```json
+{
+  "name": "my task"
+}
+```
 
 ---
 
-## Health Check
+### Get tasks
+```
+GET /tasks
+```
 
-Application exposes:
+Response:
+```json
+[
+  [1, "task 1"],
+  [2, "task 2"]
+]
+```
 
-- `/` → main endpoint
-- `/health` → used by probes
+---
+
+## Deployment Flow
+
+1. Push code to `main`
+2. GitHub Actions builds Docker image
+3. Image is pushed to Docker Hub
+4. Helm deploys to OpenShift
+5. Route exposes the service via HTTPS
+
+---
+
+## OpenShift Notes
+
+This project is designed for Red Hat OpenShift sandbox environments:
+
+- Uses OpenShift Routes for HTTPS exposure
+- Compatible with restricted security context
+- SQLite runs in ephemeral storage (`/tmp`)
+
+---
+
+## Limitations
+
+- SQLite is not suitable for multi-replica deployments
+- Data is not persistent across pod restarts (unless volume is added)
+- Designed for learning and DevOps demonstration purposes
+
+---
+
+## Possible Improvements
+
+- Add persistent volume for SQLite
+- Replace SQLite with PostgreSQL (production version)
+- Add frontend dashboard (React or simple HTML)
+- Improve API response formatting (JSON objects)
+- Add observability (logs, metrics)
 
 ---
 
 ## Author
 
-DevOps learning project – OpenShift + GitHub Actions + Helm
-```
+DevOps learning project for CI/CD, Kubernetes, and OpenShift practice.
+
+---
