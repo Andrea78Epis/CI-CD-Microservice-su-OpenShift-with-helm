@@ -25,7 +25,7 @@ spec:
 
           env:
             - name: SWAGGER_ENABLED
-              value: "{{ .Values.swagger.enabled | quote }}"
+              value: "{{ .Values.swagger.enabled }}"
             - name: SWAGGER_PATH
               value: "{{ .Values.swagger.path }}"
 
