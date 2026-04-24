@@ -16,10 +16,6 @@ def init_db():
     conn.commit()
     conn.close()
 
-@app.before_first_request
-def setup():
-    init_db()
-
 @app.route("/")
 def home():
     return "Flask + SQLite running on OpenShift"
@@ -46,6 +42,9 @@ def add_task():
     conn.commit()
     conn.close()
     return {"status": "created"}
+
+# 🚀 INIT DB QUI (FIX OPENSHIFT + FLASK 3.x)
+init_db()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
