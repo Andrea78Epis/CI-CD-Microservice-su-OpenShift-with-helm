@@ -2,7 +2,7 @@
 
 This project is a complete DevOps pipeline that deploys a Flask microservice on Red Hat OpenShift using GitHub Actions, Docker, and Helm.
 
-It includes a simple REST API with persistent storage using SQLite (ephemeral file-based storage).
+It includes a simple REST API with ephemeral file-based storage using SQLite.
 
 ---
 
