@@ -49,3 +49,8 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 10
             failureThreshold: 10
+  env:
+  - name: SWAGGER_ENABLED
+    value: "{{ .Values.swagger.enabled | quote }}"
+  - name: SWAGGER_PATH
+    value: "{{ .Values.swagger.path }}"
