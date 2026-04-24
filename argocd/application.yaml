@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: devops-app
+spec:
+  destination:
+    namespace: andreasandro-dev
+    server: https://kubernetes.default.svc
+
+  source:
+    repoURL: https://github.com/Andrea78Epis/CI-CD-Microservice-su-OpenShift-with-helm
+    targetRevision: main
+    path: helm/devops-app
+
+    helm:
+      parameters:
+        - name: image.repository
+          value: andreaepis78/myapp
+        - name: image.tag
+          value: latest
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
