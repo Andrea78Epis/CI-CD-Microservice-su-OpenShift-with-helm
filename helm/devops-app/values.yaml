@@ -1,7 +1,4 @@
 replicaCount: 1
-
-postgres:
-  enabled: true
   
 image:
   repository: andreaepis78/myapp
