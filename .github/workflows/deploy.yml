@@ -39,6 +39,7 @@ jobs:
           oc login ${{ secrets.OCP_SERVER }} --token=${{ secrets.OCP_TOKEN }}
 
       - name: Deploy with Helm to OpenShift
+        if: github.event_name == 'workflow_dispatch'
         run: |
           helm template devops-app ./helm/devops-app \
             --set image.repository=andreaepis78/myapp \
