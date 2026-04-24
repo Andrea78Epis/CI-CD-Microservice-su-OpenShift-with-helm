@@ -1,28 +1,21 @@
-# DevOps CI/CD Microservice on OpenShift (Flask + SQLite + Helm)
+# DevOps CI/CD Microservice on OpenShift (Flask + SQLite + Helm + Swagger)
 
 This project is a complete DevOps pipeline that deploys a Flask microservice on Red Hat OpenShift using GitHub Actions, Docker, and Helm.
 
-It includes a simple REST API with ephemeral file-based storage using SQLite.
+It includes a REST API with automatic Swagger/OpenAPI documentation using Flask-RESTX and ephemeral SQLite storage.
 
 ---
 
 ## Architecture Flow
 
-```mermaid
-flowchart LR
-    A[Feature Branch] --> B[Commit Code]
-    B --> C[Pull Request]
-    C --> D[GitHub Actions CI]
-    D --> E[Code Review]
-    E --> F[Merge to main]
-    F --> G[OpenShift Deploy]
-```
+GitHub Push → GitHub Actions CI/CD → Docker Build → Docker Hub → Helm Deploy → OpenShift Route → Flask API + Swagger UI
 
 ---
 
 ## Technologies Used
 
 - Python 3 / Flask
+- Flask-RESTX (Swagger / OpenAPI)
 - SQLite (embedded DB)
 - Docker
 - Kubernetes / OpenShift
@@ -53,19 +46,21 @@ CI-CD-Microservice/
 
 ---
 
-## ⚙️ Features
+## Features
 
 - REST API built with Flask
-- SQLite database (no external DB required)
-- CRUD endpoint for tasks
+- Automatic Swagger UI (Flask-RESTX)
+- SQLite embedded database (no external DB required)
+- CRUD endpoints for tasks
 - Health check endpoint
 - Containerized with Docker
 - Deployed on OpenShift via Helm
 - CI/CD pipeline using GitHub Actions
+- Configurable via Helm values (env-driven)
 
 ---
 
-## 📡 API Endpoints
+## API Endpoints
 
 ### Health check
 ```
@@ -79,31 +74,40 @@ Response:
 
 ---
 
-## Create task
+### Swagger UI (API Documentation)
+
+```
+https://<openshift-route>/
+```
+
+Automatically generated OpenAPI UI.
+
+---
+
+### Create task
 
 ```bash
-curl -k -X POST "https://devops-route.../tasks" \
+curl -k -X POST "https://<route>/tasks" \
 -H "Content-Type: application/json" \
 -d "{\"name\":\"first kubernetes task\"}"
 ```
 
-### Response
+Response:
 ```json
 {
-  "id": 1,
-  "name": "first kubernetes task"
+  "status": "created"
 }
 ```
 
 ---
 
-## Get tasks
+### Get tasks
 
 ```bash
-curl -k "https://devops-route.../tasks"
+curl -k "https://<route>/tasks"
 ```
 
-### Response
+Response:
 ```json
 [
   {
@@ -115,46 +119,68 @@ curl -k "https://devops-route.../tasks"
 
 ---
 
-## Deployment Flow
+## 🚀 Deployment Flow
 
 1. Push code to `main`
 2. GitHub Actions builds Docker image
 3. Image is pushed to Docker Hub
-4. Helm deploys to OpenShift
-5. Route exposes the service via HTTPS
+4. Helm deploys application to OpenShift
+5. OpenShift Route exposes the service via HTTPS
+6. Swagger UI becomes available automatically
 
 ---
 
-## OpenShift Notes
+## Helm Configuration
 
-This project is designed for Red Hat OpenShift sandbox environments:
+Example `values.yaml`:
 
-- Uses OpenShift Routes for HTTPS exposure
-- Compatible with restricted security context
-- SQLite runs in ephemeral storage (`/tmp`)
+```yaml
+replicaCount: 2
+
+image:
+  repository: <your-dockerhub>/myapp
+  tag: latest
+
+swagger:
+  enabled: true
+  path: /swagger
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 250m
+    memory: 256Mi
+```
+
+---
+
+## OpenShift Sandbox Notes
+
+This project runs on **Red Hat OpenShift Sandbox**, therefore:
+
+- No guaranteed persistent storage
+- SQLite database is ephemeral (`/tmp/data.db`)
+- Pods may restart at any time
+- Designed for learning / DevOps demonstration
 
 ---
 
 ## Limitations
 
-- SQLite is not suitable for multi-replica deployments
-- Data is not persistent across pod restarts (unless volume is added)
-- Designed for learning and DevOps demonstration purposes
-
----
-
-## Possible Improvements
-
-- Add persistent volume for SQLite
-- Replace SQLite with PostgreSQL (production version)
-- Add frontend dashboard (React or simple HTML)
-- Improve API response formatting (JSON objects)
-- Add observability (logs, metrics)
+- SQLite is not suitable for production multi-replica deployments
+- Data is lost on pod restart (no persistent volume configured)
+- Not designed for high availability
 
 ---
 
 ## Author
 
-DevOps learning project for CI/CD, Kubernetes, and OpenShift practice.
+DevOps learning project focused on:
 
----
+- CI/CD pipelines
+- Kubernetes / OpenShift
+- Helm packaging
+- Microservices architecture
+- Swagger/OpenAPI documentation
