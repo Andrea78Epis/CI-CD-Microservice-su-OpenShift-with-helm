@@ -2,29 +2,33 @@ name: Build and Deploy to OpenShift
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch:
+
+env:
+  IMAGE_NAME: andreaepis78/myapp
 
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Build Docker image
         run: |
-          docker build -t andreaepis78/myapp:${{ github.sha }} .
+          docker build -t $IMAGE_NAME:${{ github.sha }} .
 
-      - name: Login Docker Hub
+      - name: Login to Docker Hub
         run: |
-          echo ${{ secrets.DOCKER_PASS }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
-      
-      - name: Push image
-        run: |
-          docker push andreaepis78/myapp:${{ github.sha }}
+          docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin <<< "${{ secrets.DOCKER_PASS }}"
 
-      - name: Install oc CLI
+      - name: Push Docker image
+        run: |
+          docker push $IMAGE_NAME:${{ github.sha }}
+
+      - name: Install OpenShift CLI (oc)
         run: |
           curl -LO https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz
           tar -xvf oc.tar.gz
@@ -36,11 +40,11 @@ jobs:
 
       - name: Login to OpenShift
         run: |
-          oc login ${{ secrets.OCP_SERVER }} --token=${{ secrets.OCP_TOKEN }}
+          oc login "${{ secrets.OCP_SERVER }}" --token="${{ secrets.OCP_TOKEN }}"
 
-      - name: Deploy with Helm to OpenShift
+      - name: Deploy with Helm
         run: |
           helm template devops-app ./helm/devops-app \
-            --set image.repository=andreaepis78/myapp \
+            --set image.repository=$IMAGE_NAME \
             --set image.tag=${{ github.sha }} \
           | oc apply -n andreasandro-dev -f -
