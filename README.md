@@ -1,4 +1,4 @@
-# DevOps CI/CD Microservice on OpenShift (Flask + SQLite + Helm + Swagger)
+# Demonstrating CI/CD, Helm-based Kubernetes deployments and GitOps-ready architecture on OpenShift.
 
 ![CI](https://github.com/Andrea78Epis/CI-CD-Microservice-su-OpenShift-with-helm/actions/workflows/deploy.yml/badge.svg)
 
